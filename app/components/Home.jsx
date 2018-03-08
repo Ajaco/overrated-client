@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import JokeTeller from './JokeTeller'
-import { startPolling, stopPolling } from '../actions/joke'
+import GameState from './GameState'
+import { startPolling, stopPolling } from '../actions/game'
 
 const Container = styled.div`
   h2 {
@@ -21,9 +21,13 @@ const StyledHeader = styled.div`
   font-weight: bold;
 `
 
-type Props = {}
+type Props = {
+  startPolling: func,
+  stopPolling: func
+}
 
 class Home extends Component<Props> {
+  props: Props
   componentDidMount() {
     this.props.startPolling()
   }
@@ -32,14 +36,12 @@ class Home extends Component<Props> {
     this.props.stopPolling()
   }
 
-  props: Props
-
   render() {
     return (
       <div>
         <Container data-tid="container">
-          <StyledHeader>Overrated</StyledHeader>
-          <JokeTeller />
+          <StyledHeader>Overrated123</StyledHeader>
+          <GameState />
         </Container>
       </div>
     )

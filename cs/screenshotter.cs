@@ -6,67 +6,92 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
 using System.Windows.Forms;
+using System.Diagnostics;
+
 
 public class Startup
 {
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
-    public static extern IntPtr GetDesktopWindow();
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct Rect
+    public Image CaptureWindow(IntPtr handle)
     {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
+        // get te hDC of the target window
+        IntPtr hdcSrc = User32.GetWindowDC(handle);
+        // get the size
+        User32.RECT windowRect = new User32.RECT();
+        User32.GetWindowRect(handle, ref windowRect);
+        int width = windowRect.right - windowRect.left;
+        int height = windowRect.bottom - windowRect.top;
+        // create a device context we can copy to
+        IntPtr hdcDest = GDI32.CreateCompatibleDC(hdcSrc);
+        // create a bitmap we can copy it to,
+        // using GetDeviceCaps to get the width/height
+        IntPtr hBitmap = GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
+        // select the bitmap object
+        IntPtr hOld = GDI32.SelectObject(hdcDest, hBitmap);
+        // bitblt over
+        GDI32.BitBlt(hdcDest, 0, 0, width, height, hdcSrc, 0, 0, GDI32.SRCCOPY);
+        // restore selection
+        GDI32.SelectObject(hdcDest, hOld);
+        // clean up 
+        GDI32.DeleteDC(hdcDest);
+        User32.ReleaseDC(handle, hdcSrc);
+        // get a .NET image object for it
+        Image img = Image.FromHbitmap(hBitmap);
+        // free up the Bitmap object
+        GDI32.DeleteObject(hBitmap);
+        return img;
     }
 
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetWindowRect(IntPtr hWnd, ref Rect rect);
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetClientRect(IntPtr hWnd, ref Rect rect);
-
-    [DllImport("user32.dll")]
-    private static extern IntPtr ClientToScreen(IntPtr hWnd, ref Point point);
-
-    public static Image CaptureDesktop()
+    /// <summary>
+    /// Helper class containing Gdi32 API functions
+    /// </summary>
+    private class GDI32
     {
-        return CaptureWindow(GetDesktopWindow());
+
+        public const int SRCCOPY = 0x00CC0020; // BitBlt dwRop parameter
+        [DllImport("gdi32.dll")]
+        public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest,
+            int nWidth, int nHeight, IntPtr hObjectSource,
+            int nXSrc, int nYSrc, int dwRop);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth,
+            int nHeight);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteDC(IntPtr hDC);
+        [DllImport("gdi32.dll")]
+        public static extern bool DeleteObject(IntPtr hObject);
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
     }
 
-    public static Bitmap CaptureActiveWindow()
+    /// <summary>
+    /// Helper class containing User32 API functions
+    /// </summary>
+    private class User32
     {
-        return CaptureWindow(GetForegroundWindow());
-    }
-
-    public static Bitmap CaptureWindow(IntPtr handle)
-    {
-        var rect = new Rect();
-        GetClientRect(handle, ref rect);
-
-        var point = new Point(0,0);
-        ClientToScreen(handle, ref point);
-
-        var bounds = new Rectangle(point.X, point.Y, rect.Right, rect.Bottom);
-        var result = new Bitmap(bounds.Width, bounds.Height);
-
-        using (var graphics = Graphics.FromImage(result))
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
         {
-            graphics.CopyFromScreen(new Point(bounds.Left, bounds.Top), Point.Empty, bounds.Size);
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
         }
-
-        return result;
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetDesktopWindow();
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowDC(IntPtr hWnd);
+        [DllImport("user32.dll")]
+        public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
     }
-    public async Task<object> Invoke(Int32 input)
+    
+    public async Task<object> Invoke(Int32 pid)
     {
-        IntPtr hWnd = (IntPtr)input;
-        if (hWnd == (IntPtr)0) {
-            hWnd = GetForegroundWindow();
-        }
+        Process process = Process.GetProcessById(pid);
+        IntPtr hWnd = process.MainWindowHandle;
         return ImageToByte(CaptureWindow(hWnd));
     }
     public static byte[] ImageToByte(Image img)
