@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import { LocaleProvider } from 'antd'
+import enGB from 'antd/lib/locale-provider/en_GB'
 import Routes from './Routes'
 
 type Props = {
@@ -14,7 +16,9 @@ export default class Root extends Component<Props> {
     return (
       <Provider store={this.props.store}>
         <ConnectedRouter history={this.props.history}>
-          <Routes />
+          <LocaleProvider locale={enGB}>
+            <Routes />
+          </LocaleProvider>
         </ConnectedRouter>
       </Provider>
     )

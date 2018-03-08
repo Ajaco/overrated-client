@@ -29,7 +29,6 @@ function* pollSaga() {
 
     const pid = yield getGamePid()
 
-    console.log('gamepid?', pid)
     switch (state) {
       case 'NOT_RUNNING':
         if (pid) {
@@ -46,9 +45,6 @@ function* pollSaga() {
         break
     }
 
-    //
-    // yield put({ type: 'GET_DATA_SUCCEEDED', payload: {} })
-    // screenshot(parseInt(res[0].pid, 10), onScreenshot)
     yield call(delay, interval)
   }
 }

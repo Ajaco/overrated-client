@@ -4,7 +4,8 @@ import {
   GAME_CLOSED,
   POLLING_STARTED,
   POLLING_STOPPED,
-  INTERVAL_SET
+  INTERVAL_SET,
+  SCREEN_CAPTURED
 } from '../actions/game'
 
 const initialState = {
@@ -40,6 +41,8 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         state: 'NOT_RUNNING'
       }
+    case SCREEN_CAPTURED:
+      return { ...state }
     default:
       return state
   }

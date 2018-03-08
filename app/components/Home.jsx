@@ -18,7 +18,8 @@ const Container = styled.div`
 const StyledHeader = styled.div`
   color: #f99e1a;
   font-size: 80px;
-  font-weight: bold;
+  font-weight: lighter;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 `
 
 type Props = {
@@ -39,8 +40,8 @@ class Home extends Component<Props> {
   render() {
     return (
       <div>
-        <Container data-tid="container">
-          <StyledHeader>Overrated123</StyledHeader>
+        <Container data-tid="container" style={{ padding: 30 }}>
+          <StyledHeader>overrated</StyledHeader>
           <GameState />
         </Container>
       </div>
