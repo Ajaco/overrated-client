@@ -38,6 +38,7 @@ function* pollSaga() {
       case 'RUNNING':
         if (!pid) {
           yield put(closeGame())
+          break
         }
         const screenshot = edge.func(path.join(__dirname, '../cs/screenshotter.cs'))
         screenshot(pid, onScreenshot)
