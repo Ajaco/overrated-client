@@ -10,6 +10,7 @@
     "node": true
   },
   "rules": {
+    "no-continue": "off",
     "no-case-declarations": "off",
     "default-case": "off",
     "no-loop-func": "off",

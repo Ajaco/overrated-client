@@ -1,0 +1,1 @@
+export getGamePid from './getGamePid'

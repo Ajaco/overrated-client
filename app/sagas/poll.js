@@ -1,7 +1,4 @@
 import { delay, effects } from 'redux-saga'
-import path from 'path'
-import edge from 'edge'
-import fs from 'fs'
 import {
   POLLING_STARTED,
   POLLING_STOPPED,
@@ -9,16 +6,12 @@ import {
   startGame,
   closeGame
 } from '../actions/game'
-import { getGamePid } from './helpers'
+import { getGamePid } from '../utils'
+import { screenshot } from '../imaging'
 
 const {
   take, race, call, put, select
 } = effects
-
-const onScreenshot = async (err, res) => {
-  if (err) console.error('error', err)
-  fs.writeFileSync('someScreenshot.png', res)
-}
 
 function* pollSaga() {
   while (true) {
@@ -29,19 +22,22 @@ function* pollSaga() {
 
     const pid = yield getGamePid()
 
+    // If game is not running, then we just wait for another loop
+    if (!pid) {
+      // If previous state was something else than NOT_RUNNING, close game.
+      if (state !== 'NOT_RUNNING') yield put(closeGame())
+      yield call(delay, interval)
+      continue
+    }
+
+    // If game is running
+
     switch (state) {
       case 'NOT_RUNNING':
-        if (pid) {
-          yield put(startGame())
-        }
+        yield put(startGame())
         break
-      case 'RUNNING':
-        if (!pid) {
-          yield put(closeGame())
-          break
-        }
-        const screenshot = edge.func(path.join(__dirname, '../cs/screenshotter.cs'))
-        screenshot(pid, onScreenshot)
+      default:
+        yield screenshot(pid)
         yield put(captureScreen())
         break
     }
