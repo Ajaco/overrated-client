@@ -2,20 +2,17 @@ import { delay, effects } from 'redux-saga'
 import {
   POLLING_STARTED,
   POLLING_STOPPED,
-  captureScreen,
-  startGame,
-  closeGame
+  notifyScreenCaptured,
+  changeGameState
 } from '../actions/game'
 import { getGamePid } from '../utils'
-import { screenshot } from '../imaging'
+import { screenshot, gameState } from '../imaging'
 
-const {
-  take, race, call, put, select
-} = effects
+const { take, race, call, put, select } = effects
 
 function* pollSaga() {
   while (true) {
-    const { state, interval } = yield select(({ game }) => ({
+    const { state: previousState, interval } = yield select(({ game }) => ({
       state: game.state,
       interval: game.interval
     }))
@@ -25,21 +22,21 @@ function* pollSaga() {
     // If game is not running, then we just wait for another loop
     if (!pid) {
       // If previous state was something else than NOT_RUNNING, close game.
-      if (state !== 'NOT_RUNNING') yield put(closeGame())
+      if (previousState !== 'NOT_RUNNING') {
+        yield put(changeGameState('NOT_RUNNING'))
+      }
+      console.log('game not running.. repolling')
       yield call(delay, interval)
       continue
     }
 
     // If game is running
+    const screen = yield screenshot(pid)
+    yield put(notifyScreenCaptured())
 
-    switch (state) {
-      case 'NOT_RUNNING':
-        yield put(startGame())
-        break
-      default:
-        yield screenshot(pid)
-        yield put(captureScreen())
-        break
+    const currentState = yield gameState(previousState, screen)
+    if (currentState !== previousState) {
+      yield put(changeGameState(currentState))
     }
 
     yield call(delay, interval)

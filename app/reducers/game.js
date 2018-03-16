@@ -1,17 +1,17 @@
 // @flow
 import {
-  GAME_STARTED,
-  GAME_CLOSED,
+  CHANGED_GAME_STATE,
   POLLING_STARTED,
   POLLING_STOPPED,
   INTERVAL_SET,
   SCREEN_CAPTURED
 } from '../actions/game'
+import gs from '../utils/gameStates'
 
 const initialState = {
   polling: false,
   interval: 5000,
-  state: 'NOT_RUNNING'
+  state: gs.NOT_RUNNING.value
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -31,15 +31,10 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         polling: false
       }
-    case GAME_STARTED:
+    case CHANGED_GAME_STATE:
       return {
         ...state,
-        state: 'RUNNING'
-      }
-    case GAME_CLOSED:
-      return {
-        ...state,
-        state: 'NOT_RUNNING'
+        state: payload
       }
     case SCREEN_CAPTURED:
       return { ...state }
