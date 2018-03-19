@@ -1,18 +1,18 @@
-import { delay, effects } from 'redux-saga'
+import {delay, effects} from 'redux-saga'
 import {
   POLLING_STARTED,
   POLLING_STOPPED,
   notifyScreenCaptured,
   changeGameState
 } from '../actions/game'
-import { getGamePid } from '../utils'
-import { screenshot, gameState } from '../imaging'
+import {getGamePid} from '../utils'
+import {screenshot, gameState} from '../imaging'
 
-const { take, race, call, put, select } = effects
+const {take, race, call, put, select} = effects
 
 function* pollSaga() {
   while (true) {
-    const { state: previousState, interval } = yield select(({ game }) => ({
+    const {state: previousState, interval} = yield select(({game}) => ({
       state: game.state,
       interval: game.interval
     }))

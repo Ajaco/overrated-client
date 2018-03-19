@@ -21,7 +21,7 @@ export default {
   },
   SCORE_SCREEN: {
     value: 'SCORE_SCREEN',
-    displayName: 'Mourning losses',
+    displayName: 'Scorescreen',
     color: '#87d068'
   }
 }

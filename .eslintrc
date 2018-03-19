@@ -39,6 +39,7 @@
     "promise/catch-or-return": "error",
     "promise/no-native": "off",
     "object-curly-newline": "off",
+    "object-curly-spacing": "off",
     "react/sort-comp": [
       "error",
       {

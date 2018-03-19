@@ -4,9 +4,9 @@ import fs from 'fs'
 import promisify from 'util-promisify'
 
 export default async function (pid) {
-  const ss = edge.func(path.join(__dirname, '../cs/screenshotter.cs'))
-  const screenshot = promisify(ss)
   try {
+    const ss = edge.func(path.join(__dirname, '../cs/screenshotter.cs'))
+    const screenshot = promisify(ss)
     const buffer = await screenshot(pid)
     fs.writeFileSync('app/assets/ow.png', buffer)
     return buffer
