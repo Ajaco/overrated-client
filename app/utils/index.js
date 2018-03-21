@@ -1,1 +1,5 @@
 export getGamePid from './getGamePid'
+export gameStates from './gameStates'
+export gameResult from './gameResult'
+export parseStats from './parseStats'
+export submitStats from './submitStats'

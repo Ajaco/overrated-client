@@ -1,39 +1,43 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Input, Tag } from 'antd'
-import { setInterval } from '../actions/game'
-import statuses from '../utils/gameStates'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import Store from 'electron-store'
+import {Tag, Input} from 'antd'
+import {gameStates as gs} from '../utils'
 
 type Props = {
-  setInterval: func,
   game: object
 }
 
 class GameState extends Component<Props> {
+  state = {
+    electronStore: new Store()
+  }
+
   render() {
-    const { game: { state, interval } } = this.props
+    const {game: {state, interval}} = this.props
+    const {electronStore} = this.state
     return (
       <div>
+        <div>Polling rate in MS: {interval}</div>
         <div>
-          Polling rate in MS:
+          <span>Username:</span>
           <Input
-            defaultValue={interval}
-            style={{ marginLeft: 15, width: 400 }}
-            type="number"
-            onBlur={e => this.props.setInterval(parseInt(e.target.value, 10))}
+            style={{margin: 20, width: 150}}
+            defaultValue={electronStore.get('user')}
+            onBlur={e => {
+              electronStore.set('user', e.target.value)
+            }}
           />
         </div>
-
-        <div style={{ marginTop: 20, marginBottom: 20 }}>
+        <div style={{marginTop: 20, marginBottom: 20}}>
           Current game state:{' '}
-          <Tag color={statuses[state].color}>{statuses[state].displayName}</Tag>
+          <Tag color={gs[state].color}>{gs[state].displayName}</Tag>
         </div>
-        {state === 'RUNNING' && (
+        {state !== gs.NOT_RUNNING.value && (
           <img
             src={`./assets/ow.png?${new Date().getTime()}`}
             alt="mccree"
-            style={{ width: 500 }}
+            style={{width: 500}}
           />
         )}
       </div>
@@ -43,8 +47,4 @@ class GameState extends Component<Props> {
 
 const mapStateToProps = game => game
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setInterval }, dispatch)
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameState)
+export default connect(mapStateToProps)(GameState)

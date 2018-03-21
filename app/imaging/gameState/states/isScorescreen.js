@@ -9,6 +9,5 @@ export default async function (img) {
 
   const {percent} = jimp.diff(leaveGameTemplate, leaveGameRegion)
 
-  console.log('Diff scorescreen: ', percent * 100)
   return percent < 0.15
 }

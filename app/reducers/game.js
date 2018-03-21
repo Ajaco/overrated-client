@@ -4,17 +4,20 @@ import {
   POLLING_STARTED,
   POLLING_STOPPED,
   INTERVAL_SET,
-  SCREEN_CAPTURED
+  SCREEN_CAPTURED,
+  STATS_RECORDED,
+  STATS_RESET
 } from '../actions/game'
-import gs from '../utils/gameStates'
+import {gameStates as gs} from '../utils'
 
 const initialState = {
   polling: false,
   interval: 5000,
-  state: gs.NOT_RUNNING.value
+  state: gs.NOT_RUNNING.value,
+  stats: []
 }
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case INTERVAL_SET:
       return {
@@ -34,10 +37,15 @@ export default (state = initialState, { type, payload }) => {
     case CHANGED_GAME_STATE:
       return {
         ...state,
-        state: payload
+        state: payload.state,
+        stateUpdatedAt: payload.updatedAt
       }
     case SCREEN_CAPTURED:
-      return { ...state }
+      return {...state}
+    case STATS_RECORDED:
+      return {...state, stats: [...state.stats, payload]}
+    case STATS_RESET:
+      return {...state, stats: []}
     default:
       return state
   }

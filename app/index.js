@@ -1,8 +1,8 @@
 import React from 'react'
-import { render } from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
+import {render} from 'react-dom'
+import {AppContainer} from 'react-hot-loader'
 import sagas from './sagas'
-import { configureStore, history, sagaMiddleware } from './store/configureStore'
+import {configureStore, history, sagaMiddleware} from './store/configureStore'
 import App from './components/App'
 import './app.global.css'
 
