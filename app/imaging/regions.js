@@ -11,7 +11,7 @@ export default {
       gameDuration: {rect: {x: 563, y: 90, w: 300, h: 34}}
     },
     defeat: {
-      rect: {x: 60, y: 50, w: 265, h: 80},
+      rect: {x: 71, y: 65, w: 239, h: 53},
       mapName: {rect: {x: 330, y: 56, w: 600, h: 34}},
       gameDuration: {rect: {x: 515, y: 90, w: 300, h: 34}}
     },
