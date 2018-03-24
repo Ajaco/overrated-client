@@ -16,9 +16,9 @@ export default {
       gameDuration: {rect: {x: 515, y: 90, w: 300, h: 34}}
     },
     draw: {
-      rect: {x: 60, y: 50, w: 265, h: 80},
-      mapName: {rect: {x: 303, y: 56, w: 600, h: 34}},
-      gameDuration: {rect: {x: 488, y: 90, w: 300, h: 34}}
+      rect: {x: 71, y: 65, w: 213, h: 53},
+      mapName: {rect: {x: 305, y: 60, w: 600, h: 30}},
+      gameDuration: {rect: {x: 490, y: 94, w: 150, h: 30}}
     }
   }
 }
