@@ -26,6 +26,8 @@ export default async function (img) {
 
   if (await isResult('victory', img, victory)) {
     console.log('Game registered as Victory')
+    console.log('victoryMap', victoryMap)
+    console.log('victoryDuration', victoryDuration)
     const map = await getText(img, victoryMap)
     const duration = await getText(img, victoryDuration)
     return {result: result.VICTORY, map: map.trim(), duration: duration.trim()}
@@ -33,6 +35,8 @@ export default async function (img) {
 
   if (await isResult('defeat', img, defeat)) {
     console.log('Game registered as Defeat')
+    console.log('defeatMap', defeatMap)
+    console.log('defeatduration', defeatDuration)
     const map = await getText(img, defeatMap)
     const duration = await getText(img, defeatDuration)
     return {result: result.DEFEAT, map: map.trim(), duration: duration.trim()}
@@ -40,10 +44,14 @@ export default async function (img) {
 
   if (await isResult('draw', img, draw)) {
     console.log('Game registered as Draw')
+    console.log('drawMap', drawMap)
+    console.log('drawDuration', drawDuration)
     const map = await getText(img, drawMap)
     const duration = await getText(img, drawDuration)
     return {result: result.DRAW, map: map.trim(), duration: duration.trim()}
   }
+
+  return {}
 }
 
 const getText = async (img, {x, y, w, h}) => {
@@ -51,8 +59,6 @@ const getText = async (img, {x, y, w, h}) => {
     .clone()
     .crop(x, y, w, h)
     .getBufferAsync(jimp.MIME_PNG)
-
-  fs.writeFileSync(`/bugreport/${uuid()}.png`, buffer)
   return readImage(buffer)
 }
 
