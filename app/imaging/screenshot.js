@@ -1,16 +1,14 @@
-import edge from 'edge'
+import {exec as ex} from 'child_process'
 import path from 'path'
-import fs from 'fs'
 import promisify from 'util-promisify'
+import {readFileSync} from 'fs'
+
+const exec = promisify(ex)
 
 export default async function (pid) {
-  try {
-    const ss = edge.func(path.join(__dirname, '../cs/screenshotter.cs'))
-    const screenshot = promisify(ss)
-    const buffer = await screenshot(pid)
-    fs.writeFileSync('app/assets/ow.png', buffer)
-    return buffer
-  } catch (error) {
-    console.error('error')
-  }
+  const binary = path.join(__dirname, './dist/screenshotter/screenshot_cli.exe')
+  const filePath = './app/assets/ow.png'
+  await exec(`${binary} pid=${pid} output=${filePath}`)
+  const buffer = readFileSync(filePath)
+  return buffer
 }

@@ -1,6 +1,4 @@
 import fs from 'fs'
-import jimp from 'jimp'
-
 import {delay, effects} from 'redux-saga'
 import {
   POLLING_STARTED,
@@ -12,40 +10,18 @@ import {
   setInterval
 } from '../actions/game'
 import {getGamePid, gameStates as gs, parseStats, submitStats} from '../utils'
-import {screenshot, gameState, readStats, regions} from '../imaging'
+import {screenshot, gameState, readStats} from '../imaging'
 
 const {take, race, call, put, select} = effects
 
 function* pollSaga() {
   while (true) {
-    const {
-      state: previousState,
-      interval,
-      stateUpdatedAt,
-      prevStats
-    } = yield select(({game}) => ({
+    const {state: previousState, interval, stateUpdatedAt, prevStats} = yield select(({game}) => ({
       state: game.state,
       prevStats: game.stats,
       stateUpdatedAt: game.stateUpdatedAt,
       interval: game.interval
     }))
-
-    // const img = yield jimp.read('app/assets/test/defeat.png')
-    // const template = yield jimp.read('app/assets/defeat_template.png')
-    // const crop = img
-    //   .clone()
-    //   .crop(
-    //     regions.p1440.defeat.rect.x,
-    //     regions.p1440.defeat.rect.y,
-    //     regions.p1440.defeat.rect.w,
-    //     regions.p1440.defeat.rect.h
-    //   )
-    // const diff = jimp.diff(template, crop)
-
-    // console.log(`diff in diff: ${diff}`)
-    // console.log(diff)
-    // diff.image.write('foo.png')
-    // console.log(diff.percent < 0.15)
 
     const pid = yield getGamePid()
 
@@ -81,10 +57,7 @@ function* pollSaga() {
       } catch (error) {
         console.log('Error submitting stats:')
         console.error(error)
-        fs.writeFileSync(
-          `ow-game-bug-report-${new Date().getTime()}.json`,
-          JSON.stringify(prevStats)
-        )
+        fs.writeFileSync(`ow-game-bug-report-${new Date().getTime()}.json`, JSON.stringify(prevStats))
       }
     }
 

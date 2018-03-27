@@ -2,17 +2,3 @@
 # yarn lockfile v1
 
 
-edge-cs@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/edge-cs/-/edge-cs-1.2.1.tgz#bd1a9ecdb94ef0ed40c894582046749e57045e5a"
-
-edge@^7.10.1:
-  version "7.10.1"
-  resolved "https://registry.yarnpkg.com/edge/-/edge-7.10.1.tgz#68386eac102f39724d273cc19aea30091e2b4ae4"
-  dependencies:
-    edge-cs "1.2.1"
-    nan "^2.0.9"
-
-nan@^2.0.9:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.9.2.tgz#f564d75f5f8f36a6d9456cca7a6c4fe488ab7866"

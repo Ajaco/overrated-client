@@ -1,27 +1,13 @@
 import jimp from 'jimp'
-import uuid from 'uuid/v4'
-import fs from 'fs'
 import regions from '../regions'
 import result from '../../utils/gameResult'
 import readImage from '../readImage'
 
 export default async function (img) {
   const {
-    victory: {
-      rect: victory,
-      mapName: {rect: victoryMap},
-      gameDuration: {rect: victoryDuration}
-    },
-    defeat: {
-      rect: defeat,
-      mapName: {rect: defeatMap},
-      gameDuration: {rect: defeatDuration}
-    },
-    draw: {
-      rect: draw,
-      mapName: {rect: drawMap},
-      gameDuration: {rect: drawDuration}
-    }
+    victory: {rect: victory, mapName: {rect: victoryMap}, gameDuration: {rect: victoryDuration}},
+    defeat: {rect: defeat, mapName: {rect: defeatMap}, gameDuration: {rect: defeatDuration}},
+    draw: {rect: draw, mapName: {rect: drawMap}, gameDuration: {rect: drawDuration}}
   } = regions.p1440
 
   if (await isResult('victory', img, victory)) {
