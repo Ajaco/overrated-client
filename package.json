@@ -43,6 +43,7 @@
   "build": {
     "productName": "Overrated",
     "appId": "no.ajaco.overrated",
+    "extraResources": "app/externals",
     "files": ["dist/", "node_modules/", "app.html", "main.prod.js", "main.prod.js.map", "package.json"],
     "dmg": {
       "contents": [
@@ -170,6 +171,7 @@
   "dependencies": {
     "antd": "^3.2.3",
     "devtron": "^1.4.0",
+    "directory-tree": "^2.1.0",
     "electron-debug": "^1.5.0",
     "electron-store": "^1.3.0",
     "find-process": "^1.1.0",

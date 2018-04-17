@@ -1,4 +1,6 @@
 import React from 'react'
+import path from 'path'
+
 import {render} from 'react-dom'
 import {AppContainer} from 'react-hot-loader'
 import sagas from './sagas'
@@ -7,6 +9,12 @@ import App from './components/App'
 import './app.global.css'
 
 const store = configureStore()
+
+if (process.env.NODE_ENV === 'development') {
+  global.baseDir = __dirname
+} else {
+  global.baseDir = path.join(process.resourcesPath, 'app')
+}
 
 sagaMiddleware.run(sagas)
 
