@@ -1,9 +1,14 @@
 import jimp from 'jimp'
+import path from 'path'
 import regions from '../../regions'
 
 export default async function (img) {
-  const leaveGameTemplate = await jimp.read('app/assets/leave_template.png')
-  const {leaveGame: {rect: {x, y, w, h}}} = regions.p1440
+  const leaveGameTemplate = await jimp.read(path.join(global.baseDir, 'externals/assets/leave_template.png'))
+  const {
+    leaveGame: {
+      rect: {x, y, w, h}
+    }
+  } = regions.p1440
 
   const leaveGameRegion = img.crop(x, y, w, h)
 

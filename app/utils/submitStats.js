@@ -6,9 +6,10 @@ export default async function (result) {
       headers: {'Content-Type': 'application/json'}
     })
     const json = await res.json()
-    console.log('Game submitted successfully!', json)
+    console.log('Game submitted successfully!')
+    console.dir(json, {depth: null})
   } catch (error) {
-    console.log('Failed to submit game:')
+    console.error('Failed to submit game:')
     console.error(error)
   }
 }

@@ -33,33 +33,28 @@ export default function (results = []) {
     {map: {}, result: {}, sr: {}, duration: {}}
   )
 
-  const sr = findHighest(res.sr).trim()
-  const map = findHighest(res.map).trim()
-  const result = findHighest(res.result).trim()
+  const sr = findHighest(res.sr)
+  const map = findHighest(res.map)
+  const result = findHighest(res.result)
 
   validate({sr, map, result})
   return {
     user: 'ajaco',
     game: {
-      result: findHighest(res.result),
-      map: findHighest(res.map),
+      result,
+      map: maps[map],
       duration: findHighest(res.duration),
       completedAt: new Date(),
       id: uuid()
     },
-    sr: findHighest(res.sr)
+    sr
   }
 }
 
-const findHighest = obj =>
-  Object.keys(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b))
+const findHighest = obj => Object.keys(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b))
 
 const validate = ({sr, map, result}) => {
-  if (
-    result !== gameResult.VICTORY &&
-    result !== gameResult.DEFEAT &&
-    result !== gameResult.DRAW
-  ) {
+  if (result !== gameResult.VICTORY && result !== gameResult.DEFEAT && result !== gameResult.DRAW) {
     throw new Error(`Unknown game result. ${result}`)
   }
 
@@ -68,7 +63,7 @@ const validate = ({sr, map, result}) => {
     throw new Error(`SR not an int, or out of range: ${srInt} | ${sr}`)
   }
 
-  if (!maps.includes(map)) {
+  if (!(map in maps)) {
     throw new Error(`Map not recognized as an OW map: ${map}`)
   }
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Store from 'electron-store'
 import {Tag, Input} from 'antd'
+import path from 'path'
 import {gameStates as gs} from '../utils'
 
 type Props = {
@@ -14,7 +15,9 @@ class GameState extends Component<Props> {
   }
 
   render() {
-    const {game: {state, interval}} = this.props
+    const {
+      game: {state, interval}
+    } = this.props
     const {electronStore} = this.state
     return (
       <div>
@@ -30,13 +33,12 @@ class GameState extends Component<Props> {
           />
         </div>
         <div style={{marginTop: 20, marginBottom: 20}}>
-          Current game state:{' '}
-          <Tag color={gs[state].color}>{gs[state].displayName}</Tag>
+          Current game state: <Tag color={gs[state].color}>{gs[state].displayName}</Tag>
         </div>
         {state !== gs.NOT_RUNNING.value && (
           <img
-            src={`./assets/ow.png?${new Date().getTime()}`}
-            alt="mccree"
+            src={`${path.join(global.baseDir, 'externals/ow.png')}?${new Date().getTime()}`}
+            alt="screenshot"
             style={{width: 500}}
           />
         )}
