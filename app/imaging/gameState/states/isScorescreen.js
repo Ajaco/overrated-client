@@ -8,7 +8,7 @@ export default async function (img) {
     leaveGame: {
       rect: {x, y, w, h}
     }
-  } = regions.p1440
+  } = regions
 
   const leaveGameRegion = img.crop(x, y, w, h)
 

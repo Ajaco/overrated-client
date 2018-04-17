@@ -21,7 +21,7 @@ export default async function (img) {
       mapName: {rect: drawMap},
       gameDuration: {rect: drawDuration}
     }
-  } = regions.p1440
+  } = regions
 
   if (await isResult('victory', img, victory)) {
     console.log('Game registered as Victory')

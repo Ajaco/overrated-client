@@ -37,10 +37,10 @@ function* pollSaga() {
     }
 
     // If game is running
-    const screen = yield screenshot(pid)
+    const image = yield screenshot(pid)
     yield put(notifyScreenCaptured())
 
-    const currentState = yield gameState(previousState, screen, stateUpdatedAt)
+    const currentState = yield gameState(previousState, image, stateUpdatedAt)
     const stateChanged = currentState !== previousState
     if (stateChanged) {
       yield put(changeGameState(currentState))
@@ -64,7 +64,7 @@ function* pollSaga() {
     switch (currentState) {
       case gs.SCORE_SCREEN.value:
         if (stateChanged) yield put(setInterval(250))
-        const stats = yield readStats(screen)
+        const stats = yield readStats(image)
         yield put(recordStats(stats))
         break
     }

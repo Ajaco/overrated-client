@@ -3,7 +3,10 @@ import regions from '../../regions'
 import readImage from '../../readImage'
 
 export default async function (img) {
-  const {ingame: {rect: ingame}, ingame2: {rect: ingame2}} = regions.p1440
+  const {
+    ingame: {rect: ingame},
+    ingame2: {rect: ingame2}
+  } = regions
   const ingameImg = await img
     .clone()
     .crop(ingame.x, ingame.y, ingame.w, ingame.h)

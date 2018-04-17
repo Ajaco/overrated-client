@@ -1,24 +1,22 @@
 export default {
-  p1440: {
-    searching: {rect: {x: 1190, y: 82, w: 164, h: 27}},
-    sr: {rect: {x: 1135, y: 600, w: 225, h: 115}},
-    leaveGame: {rect: {x: 2290, y: 65, w: 200, h: 50}},
-    ingame: {rect: {x: 1170, y: 1325, w: 220, h: 40}},
-    ingame2: {rect: {x: 1185, y: 1345, w: 190, h: 30}},
-    victory: {
-      rect: {x: 67, y: 65, w: 294, h: 54},
-      mapName: {rect: {x: 379, y: 56, w: 600, h: 34}},
-      gameDuration: {rect: {x: 563, y: 90, w: 300, h: 34}}
-    },
-    defeat: {
-      rect: {x: 71, y: 65, w: 239, h: 53},
-      mapName: {rect: {x: 330, y: 56, w: 600, h: 34}},
-      gameDuration: {rect: {x: 515, y: 90, w: 300, h: 34}}
-    },
-    draw: {
-      rect: {x: 71, y: 65, w: 213, h: 53},
-      mapName: {rect: {x: 305, y: 60, w: 600, h: 30}},
-      gameDuration: {rect: {x: 490, y: 94, w: 150, h: 30}}
-    }
+  searching: {rect: {x: 892, y: 61, w: 123, h: 20}},
+  sr: {rect: {x: 851, y: 450, w: 169, h: 86}},
+  leaveGame: {rect: {x: 1718, y: 49, w: 150, h: 38}},
+  ingame: {rect: {x: 878, y: 994, w: 165, h: 30}},
+  ingame2: {rect: {x: 889, y: 1009, w: 143, h: 23}},
+  victory: {
+    rect: {x: 50, y: 49, w: 221, h: 41},
+    mapName: {rect: {x: 284, y: 42, w: 450, h: 26}},
+    gameDuration: {rect: {x: 422, y: 68, w: 225, h: 26}}
+  },
+  defeat: {
+    rect: {x: 53, y: 49, w: 179, h: 40},
+    mapName: {rect: {x: 248, y: 42, w: 450, h: 26}},
+    gameDuration: {rect: {x: 386, y: 68, w: 225, h: 26}}
+  },
+  draw: {
+    rect: {x: 53, y: 49, w: 160, h: 40},
+    mapName: {rect: {x: 229, y: 45, w: 450, h: 23}},
+    gameDuration: {rect: {x: 368, y: 71, w: 113, h: 23}}
   }
 }
