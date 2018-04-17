@@ -1,22 +1,22 @@
 export default {
   NOT_RUNNING: {
     value: 'NOT_RUNNING',
-    displayName: 'Hiding in windows',
+    displayName: 'Game not running',
     color: '#f50'
   },
   IN_MENUS: {
     value: 'IN_MENUS',
-    displayName: 'Lurking the menus..',
+    displayName: 'In menus',
     color: '#1890ff'
   },
   SEARCHING: {
     value: 'SEARCHING',
-    displayName: 'Marching into battle...',
+    displayName: 'In queues',
     color: '#1890ff'
   },
   IN_GAME: {
     value: 'IN_GAME',
-    displayName: 'Busy getting rekt',
+    displayName: 'Ingame',
     color: '#87d068'
   },
   SCORE_SCREEN: {
