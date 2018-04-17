@@ -1,6 +1,9 @@
 import uuid from 'uuid/v4'
+import Store from 'electron-store'
 import gameResult from './gameResult'
 import maps from './maps'
+
+const store = new Store()
 
 export default function (results = []) {
   const res = results.reduce(
@@ -39,7 +42,7 @@ export default function (results = []) {
 
   validate({sr, map, result})
   return {
-    user: 'ajaco',
+    user: store.get('user'),
     game: {
       result,
       map: maps[map],
